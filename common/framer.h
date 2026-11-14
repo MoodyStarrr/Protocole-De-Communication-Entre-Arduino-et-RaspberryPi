@@ -22,6 +22,7 @@ typedef struct {
   frame_t current_message;
   bool escape; // Utile pour le Byte Stuffing
   uint8_t payload_index;
+  uint8_t abandonned_messages;
 }framer_context_t;
 
 typedef struct {

@@ -20,6 +20,11 @@ static bool byte_stuffing_check(uint8_t received, framer_context_t * ctx){
 }
 
 framer_return_t frame_parser(uint8_t received, framer_context_t * ctx){
+  if( (received == FRAME_START && ctx->escape == 0){
+    framer_reset(ctx);
+    ctx->state = WAIT_START;
+  }
+
   switch (ctx->state)
   {
     case WAIT_START :
@@ -49,12 +54,12 @@ framer_return_t frame_parser(uint8_t received, framer_context_t * ctx){
 
     case READ_PAYLOAD :
       if(byte_stuffing_check(received,ctx)){
-        if(ctx->payload_index < ctx->current_message.length ){
+        if(ctx->payload_index < SIZE_MAX_PAYLOAD){
           ctx->current_message.payload[ctx->payload_index++] = received;
           ctx->state = READ_PAYLOAD;
         }
 
-        if(ctx->payload_index == ctx->current_message.length)
+        if(ctx->payload_index == SIZE_MAX_PAYLOAD)
           ctx->state = READ_CRC;
 
       }
