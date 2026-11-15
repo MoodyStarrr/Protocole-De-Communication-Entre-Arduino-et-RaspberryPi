@@ -20,9 +20,8 @@ static bool byte_stuffing_check(uint8_t received, framer_context_t * ctx){
 }
 
 framer_return_t frame_parser(uint8_t received, framer_context_t * ctx){
-  if( (received == FRAME_START && ctx->escape == 0){
+  if(received == FRAME_START && ctx->escape == 0){
     framer_reset(ctx);
-    ctx->state = WAIT_START;
   }
 
   switch (ctx->state)

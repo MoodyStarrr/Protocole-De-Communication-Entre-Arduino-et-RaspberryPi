@@ -5,7 +5,6 @@
 
 #include "protocol.h"
 #include <stdbool.h>
-#include <pthread.h>
 // Pas besoin d'include stdint deja fait dans protocol.h
 
 typedef enum {
@@ -22,14 +21,8 @@ typedef struct {
   frame_t current_message;
   bool escape; // Utile pour le Byte Stuffing
   uint8_t payload_index;
-  uint8_t abandonned_messages;
 }framer_context_t;
 
-typedef struct {
-  bool frame_ready;
-  pthread_cond_t ready;
-  pthread_mutex_t mutex;
-}framer_thread_state_t;
 
 typedef enum {
   FRAME_IN_PROGRESS,

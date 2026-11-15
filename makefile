@@ -4,7 +4,7 @@ C_SRC = $(wildcard common/*.c)
 
 ## Raspberry side variable declaration
 CC = gcc
-CFLAGS = -Wall -Wextra -g -O0 -Iraspberry/include -std=c99
+CFLAGS = -Wall -Wextra -g -O0 -Iraspberry/include -Iraspberry/addon  -std=c99
 LDLIBS =
 RASPBERRY_SRC = $(wildcard raspberry/src/*.c)
 R_INC = $(C_INC:common/%.h=raspberry/include/%.h)
@@ -36,7 +36,7 @@ raspberry/build/%.o: raspberry/src/%.c | sync_raspberry
 	@# $^ pour appeler tous les .c présents dans src/
 
 ## test variables 
-CFLAGS_TEST = -Wall -Wextra -g -O0 -Icommon/ -std=c99
+CFLAGS_TEST = -Wall -Wextra -g -O0 -Iraspberry/addon -Icommon/ -std=c99
 test_%: misc/test_%.c  $(wildcard common/*) # On regarde tout ce qu'il y a dans common/, les .c pour la compil et les .h au cas ou ils auraient changé
 	@$(CC) $(CFLAGS_TEST) $(filter %.c, $^) -o $@  # filtre ou on garde seulement les .c car le compilateur n'accepte pas les .h
 	./$@
